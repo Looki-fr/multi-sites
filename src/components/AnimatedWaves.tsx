@@ -10,60 +10,68 @@ type WaveParams = {
   colorId: string
 }
 
-const total=25
-const yMultipliers = Array.from({ length: total }, (_, i) => 25 - (5 * i) / (total-1))
+const total = 25
+const yMultipliers = Array.from({ length: total }, (_, i) => 25 - (5 * i) / (total - 1))
 
-const waves: WaveParams[] = [
-  // 125 vagues générées automatiquement
-  ...Array.from({ length: total }, (_, i) => ({
-    amplitude: 8 + Math.random() * 4, // entre 8 et 12
-    frequency: 0.004 + Math.random() * 0.002, // entre 0.004 et 0.009
-    speed: 0.006 + Math.random() * 0.005, // entre 0.006 et 0.011
-    offsetY: -140+i * yMultipliers[i],
-    offsetX: 0,
-    opacity: 0.8 - (i * (1 - 0.2)) / (total - 1), // entre 0.8 et 0.2
-    colorId: 'gradient1',
-  }))
-]
-
+const baseWaves: WaveParams[] = Array.from({ length: total }, (_, i) => ({
+  amplitude: 8 + Math.random() * 4, // entre 8 et 12
+  frequency: 0.004 + Math.random() * 0.002,
+  speed: 0.006 + Math.random() * 0.005,
+  offsetY: -140 + i * yMultipliers[i],
+  offsetX: 0,
+  opacity: 0.8 - (i * (1 - 0.2)) / (total - 1),
+  colorId: 'gradient1',
+}))
 
 export default function AnimatedWaves() {
   const pathRefs = useRef<Array<SVGPathElement | null>>([])
   const [width, setWidth] = useState(1980)
 
   useEffect(() => {
-    setWidth(window.innerWidth)
+    const handleResize = () => setWidth(window.innerWidth)
+    handleResize() // première init
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
+  useEffect(() => {
+    const segments = 120
     const frameIds: number[] = []
-    const tOffsets = new Array(waves.length).fill(0)
+    const tOffsets = new Array(baseWaves.length).fill(0)
+
+    const optimalWidth = 1500
+    let scaleCoef = width / optimalWidth
+    if (scaleCoef < 1) scaleCoef = 1 // éviter un scale trop petit
+
+    console.log('scaleCoef:', scaleCoef)
+    console.log('width:', width)
 
     const draw = () => {
-      const segments = 120
       const step = width / segments
 
-      waves.forEach((wave, idx) => {
+      baseWaves.forEach((wave, idx) => {
         const path = pathRefs.current[idx]
         if (!path) return
 
         const slope = -0.1
-
         let d = `M 0 0 `
+
         for (let i = 0; i <= segments; i++) {
           const x = i * step + wave.offsetX
 
-          // Équation accordéon harmonique
           const y =
-            wave.offsetY +
+            (wave.offsetY +
             wave.amplitude *
-              Math.sin(wave.frequency * x + Math.sin(wave.frequency * x + tOffsets[idx]))
-            + x * slope
+              Math.sin(wave.frequency * x + Math.sin(wave.frequency * x + tOffsets[idx])) +
+            x * slope) * scaleCoef
+
+          
 
           d += `L ${x} ${y} `
         }
 
         d += `L ${width} 0 Z`
         path.setAttribute('d', d)
-
         tOffsets[idx] += wave.speed
       })
 
@@ -95,26 +103,21 @@ export default function AnimatedWaves() {
       >
         <defs>
           <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff00ff" />
-            <stop offset="100%" stopColor="#00ffff" />
-          </linearGradient>
-          <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff00ff" />
-            <stop offset="100%" stopColor="#00ffff" />
-          </linearGradient>
-          <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff00ff" />
-            <stop offset="100%" stopColor="#00ffff" />
+            {/* <stop offset="0%" stopColor="#ff00ff" /> */}
+            {/* <stop offset="100%" stopColor="#00ffff" /> */}
+            {/* <stop offset="0%" stopColor="#ff8c00" />
+            <stop offset="100%" stopColor="#ffe4e1" /> */}
+            <stop offset="0%" stopColor="#ff9f00" />
+            <stop offset="100%" stopColor="#bf00ff" />
           </linearGradient>
         </defs>
 
-        {waves.map((wave, i) => (
+        {baseWaves.map((wave, i) => (
           <path
             key={i}
             ref={el => {
-            pathRefs.current[i] = el
+              pathRefs.current[i] = el
             }}
-
             fill={`url(#${wave.colorId})`}
             style={{ fillOpacity: wave.opacity }}
           />
