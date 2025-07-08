@@ -1,0 +1,125 @@
+import { useEffect, useRef, useState } from 'react'
+
+type WaveParams = {
+  amplitude: number
+  frequency: number
+  speed: number
+  offsetY: number
+  offsetX: number
+  opacity: number
+  colorId: string
+}
+
+const total=25
+const yMultipliers = Array.from({ length: total }, (_, i) => 25 - (5 * i) / (total-1))
+
+const waves: WaveParams[] = [
+  // 125 vagues générées automatiquement
+  ...Array.from({ length: total }, (_, i) => ({
+    amplitude: 8 + Math.random() * 4, // entre 8 et 12
+    frequency: 0.004 + Math.random() * 0.002, // entre 0.004 et 0.009
+    speed: 0.006 + Math.random() * 0.005, // entre 0.006 et 0.011
+    offsetY: -140+i * yMultipliers[i],
+    offsetX: 0,
+    opacity: 0.8 - (i * (1 - 0.2)) / (total - 1), // entre 0.8 et 0.2
+    colorId: 'gradient1',
+  }))
+]
+
+
+export default function AnimatedWaves() {
+  const pathRefs = useRef<Array<SVGPathElement | null>>([])
+  const [width, setWidth] = useState(1980)
+
+  useEffect(() => {
+    setWidth(window.innerWidth)
+
+    const frameIds: number[] = []
+    const tOffsets = new Array(waves.length).fill(0)
+
+    const draw = () => {
+      const segments = 120
+      const step = width / segments
+
+      waves.forEach((wave, idx) => {
+        const path = pathRefs.current[idx]
+        if (!path) return
+
+        const slope = -0.1
+
+        let d = `M 0 0 `
+        for (let i = 0; i <= segments; i++) {
+          const x = i * step + wave.offsetX
+
+          // Équation accordéon harmonique
+          const y =
+            wave.offsetY +
+            wave.amplitude *
+              Math.sin(wave.frequency * x + Math.sin(wave.frequency * x + tOffsets[idx]))
+            + x * slope
+
+          d += `L ${x} ${y} `
+        }
+
+        d += `L ${width} 0 Z`
+        path.setAttribute('d', d)
+
+        tOffsets[idx] += wave.speed
+      })
+
+      frameIds[0] = requestAnimationFrame(draw)
+    }
+
+    draw()
+    return () => frameIds.forEach(id => cancelAnimationFrame(id))
+  }, [width])
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        zIndex: -1,
+      }}
+    >
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${width} 320`}
+        preserveAspectRatio="none"
+        style={{ display: 'block' }}
+      >
+        <defs>
+          <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff00ff" />
+            <stop offset="100%" stopColor="#00ffff" />
+          </linearGradient>
+          <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff00ff" />
+            <stop offset="100%" stopColor="#00ffff" />
+          </linearGradient>
+          <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff00ff" />
+            <stop offset="100%" stopColor="#00ffff" />
+          </linearGradient>
+        </defs>
+
+        {waves.map((wave, i) => (
+          <path
+            key={i}
+            ref={el => {
+            pathRefs.current[i] = el
+            }}
+
+            fill={`url(#${wave.colorId})`}
+            style={{ fillOpacity: wave.opacity }}
+          />
+        ))}
+      </svg>
+    </div>
+  )
+}

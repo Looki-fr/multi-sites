@@ -1,69 +1,86 @@
-# React + TypeScript + Vite
+# Multi-Sites (Vite + React + GitHub Pages)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet contient **plusieurs sections indépendantes** (`/louis/`, `/test/`, `/diane/`) dans un **seul site React**, construit avec **Vite** et hébergé sur **GitHub Pages**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Démo en ligne
 
-## Expanding the ESLint configuration
+- Page d’accueil : [https://looki-fr.github.io/multi-sites/](https://looki-fr.github.io/multi-sites/)
+- Section Louis : [https://looki-fr.github.io/multi-sites/louis/](https://looki-fr.github.io/multi-sites/louis/)
+- Section Test : [https://looki-fr.github.io/multi-sites/test/](https://looki-fr.github.io/multi-sites/test/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧱 Structure du projet
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+/src
+  ├── pages/
+  │   ├── Home.tsx         // Page d'accueil
+  │   ├── louis.tsx        // Sous-site Louis
+  │   └── test.tsx         // Sous-site Test
+  └── main.tsx             // Point d'entrée principal
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Technologies utilisées
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [Vite](https://vitejs.dev/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/) *(optionnel)*
+- [GitHub Pages](https://pages.github.com/) pour l’hébergement statique
+- [gh-pages](https://www.npmjs.com/package/gh-pages) pour le déploiement automatique
+
+---
+
+## 🛠️ Commandes utiles
+
+### Installation
+
+```bash
+npm install
 ```
+
+### Lancement local
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+→ Le contenu statique sera généré dans le dossier `/dist`.
+
+### Déploiement sur GitHub Pages
+
+```bash
+npx gh-pages -d dist
+```
+
+---
+
+## 🧠 Notes importantes
+
+- Le site peut être configuré avec un `base` dans `vite.config.ts` :
+  ```ts
+  export default defineConfig({
+    base: '/multi-sites/',
+    ...
+  })
+  ```
+
+- Les routes doivent être adaptées au déploiement GitHub Pages (préfixe `/multi-sites/`)
+- Chaque section peut évoluer indépendamment comme un mini-site (parfait pour un portfolio multi-projets).
+
+---
+
+## 💡 Auteur
+
+Made by [Looki-fr](https://github.com/Looki-fr)
