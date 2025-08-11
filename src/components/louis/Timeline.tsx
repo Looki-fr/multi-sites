@@ -1,0 +1,240 @@
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import FaceFloating from "./Floating/FaceFloating";
+import ElementFloating from "./Floating/ElementFloating";
+
+interface TimelineProps {
+  isZoomedSkills: boolean;
+  isMobile: boolean;
+}
+
+/**
+ * Same timeline as before but the rocket animation is driven by plain JS
+ * (requestAnimationFrame) using the native SVG path‑length API. No more
+ * <animateMotion>, so the behaviour is consistent across browsers.
+ */
+const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
+  const pxToVw = (px: number) => (px / window.innerWidth) * 100;
+  const pxToVh = (px: number) => (px / window.innerHeight) * 100;
+  const [showTimeline, setShowTimeline] = useState(!isZoomedSkills);
+  const enumHovered = {
+    NONE: '',
+    FACE: 'face',
+    LYCEE: 'lycee',
+    EFREI: 'efrei',
+    ETN: 'etn',
+    IDD: 'idd',
+  };
+  const [hovered, setHovered] = useState(enumHovered.NONE);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+
+    if (isZoomedSkills) {
+      // hide immediately when zooming-in
+      setShowTimeline(false);
+    } else {
+      // wait 2 s before showing again
+      timer = setTimeout(() => setShowTimeline(true), 2000);
+    }
+    return () => timer && clearTimeout(timer);
+  }, [isZoomedSkills]);
+
+
+  const positions = isMobile ? [
+    {x: '50vw', y: '25vh'},
+    {x:'45vw', y: '60vh'},
+    {x: '55vw', y: '87vh'},
+    {x: '42vw', y: '114vh'},
+    {x: '62vw', y: '141vh'},
+  ] :[
+    {x: '5vw', y: '5vh'},
+    {x: '26vw', y: '20vh'},
+    {x: '43vw', y: '11vh'},
+    {x: '63vw', y: '22vh'},
+    {x: '87vw', y: '15vh'},
+  ]
+
+  
+  // Waypoints in viewBox units (0‑100)
+  const waypoints = isMobile ? [
+    {x: 50, y:0},
+    { x:parseFloat(positions[0].x.replace('vw', '')), y: parseFloat(positions[0].y.replace('vh', '')) },
+    { x: parseFloat(positions[1].x.replace('vw', '')), y: parseFloat(positions[1].y.replace('vh', '')) },
+    { x: parseFloat(positions[2].x.replace('vw', '')), y: parseFloat(positions[2].y.replace('vh', '')) },
+    { x: parseFloat(positions[3].x.replace('vw', '')), y: parseFloat(positions[3].y.replace('vh', '')) },
+    { x: parseFloat(positions[4].x.replace('vw', '')), y: parseFloat(positions[4].y.replace('vh', '')) },
+  ] : [
+    { x:-5, y: 20 },
+    { x: 5 + pxToVw(100), y: 5 + pxToVh(100) },
+    { x: 26 + pxToVw(100), y: 20 + pxToVh(40) },
+    { x: 43 + pxToVw(125), y: 11 + pxToVh(45) },
+    { x: 63 + pxToVw(100), y: 22 + pxToVh(50) },
+    { x: 87 + pxToVw(75),  y: 15 + pxToVh(35) },
+    { x:105,  y: 20 + pxToVh(100) }
+  ];
+
+  // Build an alternating wavy path (same as before)
+  const buildPath = () => {
+    const cmds: string[] = [`M ${waypoints[0].x} ${waypoints[0].y}`];
+    for (let i = 1; i < waypoints.length; i++) {
+      const prev = waypoints[i - 1];
+      const curr = waypoints[i];
+      const midX = (prev.x + curr.x) / 2;
+      const midY = (prev.y + curr.y) / 2;
+      const dir = i % 2 === 0 ? -1 : 1;
+      const offX = dir * (curr.y - prev.y) * 0.5;
+      const offY = dir * (prev.x - curr.x) * 0.5;
+      cmds.push(`Q ${midX + offX} ${midY + offY} ${curr.x} ${curr.y}`);
+    }
+    return cmds.join(" ");
+  };
+
+  const pathD = buildPath();
+
+  // --- JS‑driven rocket animation -------------------------------------------
+  const pathRef = useRef<SVGPathElement>(null);
+  const rocketRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const pathEl = pathRef.current;
+    const rocketEl = rocketRef.current;
+    if (!pathEl || !rocketEl) return;
+
+    const total = pathEl.getTotalLength();
+    let t = 0; // 0‑1
+    let frame: number;
+    const delta = 0.3; // length units (viewBox) used for angle calculation
+
+    const step = () => {
+      t += 0.0004; // speed
+      if (t > 1) t -= 1;
+      const len = t * total;
+      const pos = pathEl.getPointAtLength(len);
+      const posAhead = pathEl.getPointAtLength((len + delta) % total);
+      const angle = Math.atan2(posAhead.y - pos.y, posAhead.x - pos.x) * 180 / Math.PI;
+
+      rocketEl.style.transform = `translate(${pos.x}vw, ${pos.y}vh) translate(-50%, -50%) rotate(${angle + 45}deg)`;
+      frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2, ease: "easeInOut" }}
+      style={{ position: isMobile ? "absolute" : "fixed", inset: 0, pointerEvents: isZoomedSkills ? "none" : "auto" }}
+      onClick={() => {
+        if (isMobile && hovered !== enumHovered.NONE) {
+          setHovered(enumHovered.NONE);
+        }
+      }}
+    >
+      {/* SVG timeline */}
+      { 
+        showTimeline && (
+          <svg
+            viewBox={isMobile ? "0 0 100 145" : "0 0 100 100"}
+            preserveAspectRatio="none"
+            style={{ position: "absolute", inset: 0, width: "100vw", height: isMobile ? "145vh" : "100vh" }}
+          >
+            <path
+              ref={pathRef}
+              d={pathD}
+              stroke="#888"
+              strokeDasharray="0.3 1.2"
+              strokeWidth={0.15}
+              fill="none"
+            />
+          </svg>
+        )
+      }
+
+      
+      <img
+        ref={rocketRef}
+        src="/multi-sites/assets/louis/fusee.png"
+        alt="rocket"
+        style={{ position: "absolute", width: 50, height: 50, transform: "rotate(45deg)", pointerEvents: "none", opacity: !showTimeline ? 0 : 1 }}
+      />
+
+      {/* Existing floating elements */}
+      <motion.div style={{ position: "absolute", top: positions[0].y, left: positions[0].x, pointerEvents: "none", translate: isMobile ? "-50% -50%" : "0 0" }}>
+        <FaceFloating isZoomedSkills={isZoomedSkills} isMobile={isMobile} 
+        hovered={hovered === enumHovered.FACE} 
+        setHovered={() => setHovered(enumHovered.FACE)} 
+        setHoveredNone={() => setHovered(enumHovered.NONE)}
+        />
+      </motion.div>
+      <motion.div style={{ position: "absolute", top: positions[1].y, left: positions[1].x, translate: isMobile ? "-50% -50%" : "0 0"  }}>
+        <ElementFloating
+          isZoomedSkills={isZoomedSkills}
+          image="/multi-sites/assets/louis/lycee.png"
+          width={180}
+          title="Lycée Modeste Leroy"
+          link="https://modeste-leroy.lycee.ac-normandie.fr/"
+          short_description="Découverte de l'informatique"
+          description="C’est au lycée que j’ai découvert l’informatique : un véritable déclic. J’ai immédiatement été passionné et me suis lancé dans de nombreux projets personnels."
+          hovered={hovered === enumHovered.LYCEE} 
+          setHovered={() => setHovered(enumHovered.LYCEE)} 
+          setHoveredNone={() => setHovered(enumHovered.NONE)}
+          isMobile={isMobile}
+        />
+      </motion.div>
+      <motion.div style={{ position: "absolute", top: positions[2].y, left: positions[2].x, translate: isMobile ? "-50% -50%" : "0 0"  }}>
+        <ElementFloating
+          isZoomedSkills={isZoomedSkills}
+          image="/multi-sites/assets/louis/efrei.png"
+          width={180}
+          title="EFREI Paris"
+          link="https://www.efrei.fr/"
+          short_description="Approfondissement des connaissances"
+          description="À l’EFREI, j’ai consolidé mes compétences en informatique tout en travaillant avec des développeurs passionnés. J’ai mené de nombreux projets d’équipe, de 2 à 7 personnes."
+          offsetXDescription={35} // Adjusted offset for better positioning
+          hovered={hovered === enumHovered.EFREI} 
+          setHovered={() => setHovered(enumHovered.EFREI)} 
+          setHoveredNone={() => setHovered(enumHovered.NONE)}
+          isMobile={isMobile}
+        />
+      </motion.div>
+      <motion.div style={{ position: "absolute", top: positions[3].y, left: positions[3].x, translate: isMobile ? "-50% -50%" : "0 0"  }}>
+        <ElementFloating
+          isZoomedSkills={isZoomedSkills}
+          image="/multi-sites/assets/louis/etn.png"
+          width={180}
+          title="ETN"
+          link="https://etn.fr/nos-domaines-dactivites/electrotechnique/"
+          short_description="Expériences professionnelles"
+          description="Chez ETN, j’ai effectué un CDD d’un mois comme magasinier, puis un stage d’un mois en tant que technico-commercial. Deux expériences formatrices sur le terrain."
+          hovered={hovered === enumHovered.ETN} 
+          setHovered={() => setHovered(enumHovered.ETN)} 
+          setHoveredNone={() => setHovered(enumHovered.NONE)}
+          isMobile={isMobile}
+        />
+
+      </motion.div>
+      <motion.div style={{ position: "absolute", top: positions[4].y, left: positions[4].x, translate: isMobile ? "-50% -50%" : "0 0" }}>
+        <ElementFloating
+          isZoomedSkills={isZoomedSkills}
+          image="/multi-sites/assets/louis/idd.png"
+          width={140}
+          link="http://www.idd-xpert.com/"
+          title="IDD-Xpert"
+          short_description="Stage de 5 mois"
+          description="Chez IDD-Xpert, un laboratoire pharmaceutique, j’ai modernisé les formations internes en développant un outil sur mesure pour les gérer et les effectuer efficacement."
+          offsetXDescription={-45} // Adjusted offset for better positioning
+          isLeftDescription={true}
+          hovered={hovered === enumHovered.IDD} 
+          setHovered={() => setHovered(enumHovered.IDD)} 
+          setHoveredNone={() => setHovered(enumHovered.NONE)}
+          isMobile={isMobile}
+        />
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export default Timeline;

@@ -1,19 +1,5 @@
 TODO : 
-    - version no script de chaque page ?
-    - comment avoir un index par page ? => mettre no sript dedans ?
-
-
-idée :
-
-page d'accueil en mode espace avec icones et texts flottants
-    -> autres pages dans differents styles de scroll
-        -> Page about me 
-        -> Experience -> 
-        -> Skills -> 
-            -> Machine learning & IA
-                -> Scamazon
-                -> Photos IA
-            -> Devops
-            -> UI & Design
-            -> Programmation
-        -> Page projets
+- https://reactbits.dev/text-animations/rotating-text
+    - icons linkedin, github & gmail qq part
+    - build
+    - version anglaise

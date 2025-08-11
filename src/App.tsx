@@ -1,14 +1,10 @@
 import React from 'react'
-import AnimatedWavesCss from './components/AnimatedWavesCss'
 import AnimatedWaves from './components/AnimatedWaves'
 
 export default function Home() {
   return (
     <>
       <AnimatedWaves />
-      <noscript>
-        <AnimatedWavesCss />
-      </noscript>
 
       <main className="fullscreen">
         <div className="container">
@@ -23,7 +19,7 @@ export default function Home() {
               </a>
               <p className="desc">Créateur de ce site web, passionné d’informatique polyvalent.</p>
               <div className="preview">
-                <img src="/multi-sites/preview_louis.png" alt="Aperçu Louis" />
+                <img src="/multi-sites/assets/preview_louis.png" alt="Aperçu Louis" />
               </div>
             </li>
 
@@ -33,7 +29,7 @@ export default function Home() {
               </a>
               <p className="desc">Lores ipsum dolor sit amet, consectetur adipiscing elit.</p>
               <div className="preview">
-                <img src="/multi-sites/preview_diane.png" alt="Aperçu Diane" />
+                <img src="/multi-sites/assets/preview_diane.png" alt="Aperçu Diane" />
               </div>
             </li>
           </ul>

@@ -1,0 +1,43 @@
+voici un récap de mon projet :
+
+🌌 Projet : Portfolio Spatial Dynamique
+🎯 Objectif
+
+Créer une page d’accueil de portfolio immersive avec une ambiance espace dynamique, contenant des liens vers différentes sections : about, skills, projects, experience, contact.
+🛠️ Technologies utilisées
+
+    React + TypeScript (css dans fichier tsx)
+
+    Vite pour un build rapide et un site statique exportable
+
+    GitHub Pages pour l’hébergement gratuit
+
+    HTML/CSS rendu entièrement côté client, sans serveur
+
+    Animations dynamiques en JavaScript avec useMemo, useEffect, etc.
+
+✨ Composants graphiques
+
+    Fond spatial animé :
+
+        étoiles blanches qui scintillent (twinkle)
+
+        étoiles bleues de fond texturées avec un flou léger
+
+        une étoile filante apparaissant aléatoirement (toutes les 50-60s)
+
+        une galaxie en spirale générée avec une formule logarithmique (r = a·e^{bθ})
+
+        blobs colorés (rose, violet, orange) avec opacité dynamique
+
+    Design responsive fullscreen
+
+        Pas de scrollbar
+
+        Positionnement absolu avec vh/vw
+
+🧠 Contraintes / Philosophie
+
+    Rendu lisible même sans JavaScript (version <noscript>)
+
+    Priorité à l’expérience visuelle, à la fluidité et à l’accessibilité
