@@ -53,20 +53,6 @@ npx gh-pages -d dist
 
 ---
 
-## 🧠 Notes importantes
-
-- Le site peut être configuré avec un `base` dans `vite.config.ts` :
-  ```ts
-  export default defineConfig({
-    base: '/multi-sites/',
-    ...
-  })
-  ```
-
-- Les routes doivent être adaptées au déploiement GitHub Pages (préfixe `/multi-sites/`)
-- Chaque section peut évoluer indépendamment comme un mini-site (parfait pour un portfolio multi-projets).
-
----
 
 ## 💡 Auteur
 
