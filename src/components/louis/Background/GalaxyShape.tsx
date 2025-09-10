@@ -25,7 +25,6 @@ const GalaxyShape = () => {
 
         const baseOpacity = 0.2
         const maxOpacity = 0.5
-        console.log(r, size, x, y)
         const opacity = r<10 ? baseOpacity : maxOpacity
 
         const colors = ['#ff8a00', '#ff0077', '#9b00ff']

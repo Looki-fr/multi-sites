@@ -204,7 +204,7 @@ const FaceFloating: React.FC<FaceFloatingProps> = ({ isZoomedSkills, isMobile, h
             ))}
           </div>
         </motion.div>
-        {hovered && <DescriptionModal hovered={hovered} anchor={ref.current} title={"Louis — Développeur Full-Stack"} description={"Passionné par le front, le back et les expériences immersives. J’adore transformer des idées en produits élégants et performants."} isMobile={isMobile} />}
+        {hovered && <DescriptionModal hovered={hovered} anchor={ref.current} title={"Louis — Développeur Full-Stack"} description={"Passionné par l'informatique, j'adore exprimer mon art à travers le code et repousser les limites techniques !"} isMobile={isMobile} />}
       </>
   );
 };

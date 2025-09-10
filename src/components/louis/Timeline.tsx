@@ -223,8 +223,8 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           width={140}
           link="http://www.idd-xpert.com/"
           title="IDD-Xpert"
-          short_description="Stage de 5 mois"
-          description="Chez IDD-Xpert, un laboratoire pharmaceutique, j’ai modernisé les formations internes en développant un outil sur mesure pour les gérer et les effectuer efficacement."
+          short_description="Stage de 5 mois & CDD de 2 mois"
+          description="Chez IDD-Xpert, un laboratoire pharmaceutique, j’ai modernisé les formations internes en développant un outil sur mesure pour les gérer et les effectuer efficacement, ainsi que pris part dans divers missions. Participant à la transformation digitale de l’entreprise."
           offsetXDescription={-45} // Adjusted offset for better positioning
           isLeftDescription={true}
           hovered={hovered === enumHovered.IDD} 

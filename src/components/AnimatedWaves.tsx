@@ -43,9 +43,6 @@ export default function AnimatedWaves() {
     let scaleCoef = width / optimalWidth
     if (scaleCoef < 1) scaleCoef = 1 // éviter un scale trop petit
 
-    console.log('scaleCoef:', scaleCoef)
-    console.log('width:', width)
-
     const draw = () => {
       const step = width / segments
 
