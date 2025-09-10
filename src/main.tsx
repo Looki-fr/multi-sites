@@ -7,12 +7,10 @@ import Page404 from './pages/Page404'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/multi-sites">
       <Routes>
-        <Route path="/multi-sites" element={<App />} />
-        <Route path="/multi-sites/louis" element={<Louis />} />
-
-        {/* Catch-all: toute URL non gérée => 404 */}
+        <Route path="/" element={<App />} />
+        <Route path="/louis" element={<Louis />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
