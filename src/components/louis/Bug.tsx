@@ -1,17 +1,15 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import useFloatingMotion from "./Floating/useFloatingMotion"; // ajuste le chemin si besoin
 
 const Bug: React.FC = () => {
-  const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
 
   useFloatingMotion(ref);
 
   return (
-    <div
+    <a
       ref={ref}
-      onClick={() => navigate("/404")}
+      href="/multi-sites/404"
       style={{
         position: "fixed",
         bottom: "20px",
@@ -31,7 +29,7 @@ const Bug: React.FC = () => {
         alt="bug"
         style={{ width: "100%", height: "100%", display: "block", pointerEvents: "none" }}
       />
-    </div>
+    </a>
   );
 };
 

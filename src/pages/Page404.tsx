@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useState, useState as useStateIcon, type ChangeEvent, type CSSProperties } from 'react';
 import FuzzyText from '../components/404/FuzzyText';
 import FallingText from '../components/404/FallingText';
-import { useNavigate } from 'react-router-dom';
 
 function useLockBodyScroll(lock: boolean = true) {
   useLayoutEffect(() => {
@@ -175,8 +174,6 @@ const Page404: React.FC = () => {
   // Verrouille le scroll du body quand la page 404 est affichée
   useLockBodyScroll(true);
 
-  const navigate = useNavigate();
-
   const handleIntensityChange = (e: ChangeEvent<HTMLInputElement>) => {
     setHoverIntensity(parseFloat(e.target.value));
   };
@@ -187,7 +184,7 @@ const Page404: React.FC = () => {
 
   return (
     <div style={rootStyle}>
-      <IconHomeButton onClick={() => navigate('/multi-sites/')} />
+      <IconHomeButton onClick={() => window.location.href = '/multi-sites/'} />
       <header style={headerStyle}>
         <FuzzyText baseIntensity={0.2} hoverIntensity={hoverIntensity} enableHover={enableHover}>
           404
