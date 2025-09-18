@@ -53,6 +53,12 @@ npx gh-pages -d dist
 
 ---
 
+### Tester le déploiement en local
+```bash
+npx vite preview --host --port 4173 --strictPort --base /multi-sites/
+
+```
+
 
 ## 💡 Auteur
 

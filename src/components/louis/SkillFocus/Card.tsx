@@ -77,9 +77,14 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
         background: 'linear-gradient(to right bottom, white, #f0f0f0)',
         borderRadius: '5px',
         boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.2)',
+        isolation: 'isolate',
       }}
     >
-      <div className={`card ${isRed ? 'red' : 'black'}`}>
+      <div
+        className="card"
+        style={{ color: isRed ? 'crimson' : '#111' }}
+      >
+
         {/* Corners */}
         {['top left', 'bottom right'].map((pos, i) => (
           <div key={i} className={`corner ${pos}`}>
@@ -135,16 +140,15 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
       </div>
 
       <style>{`
+        .card, .card * { color: inherit; }   /* tout hérite de la couleur de .card (red/black) */
+        .pip::before { color: currentColor; }/* les symboles ♥♠♦♣ suivent la couleur héritée */
+
         .card {
           width: 100%;
           height: 100%;
           font-family: 'Lora', serif;
           font-weight: 700;
           position: relative;
-        }
-
-        .red {
-          color: crimson;
         }
 
         .corner {
@@ -164,8 +168,10 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
         }
 
         .corner h1 {
-          /* min = 1.5em (valeur actuelle) */
+          all: unset;             /* enlève les styles globaux (tailwind/typography) */
+          display: block;
           font-size: clamp(1.5em, 1.5vw, 2.5em);
+          line-height: 1;
           margin: 0;
         }
 
