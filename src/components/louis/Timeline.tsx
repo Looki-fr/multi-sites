@@ -166,8 +166,8 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
             ref={pathRef}
             d={pathD}
             stroke="#888"
-            strokeDasharray="0.3 1.2"
-            strokeWidth={0.15}
+            strokeDasharray={isMobile ? "0.6 2.4" : "0.3 1.2"}
+            strokeWidth={isMobile ? 0.5 : 0.1}
             fill="none"
           />
           {/* Rocket INSIDE the SVG, square and non-stretched */}
