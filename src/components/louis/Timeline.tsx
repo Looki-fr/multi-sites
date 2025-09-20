@@ -15,7 +15,6 @@ interface TimelineProps {
  */
 const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
   const pxToVw = (px: number) => (px / window.innerWidth) * 100;
-  const pxToVh = (px: number) => (px / window.innerHeight) * 100;
   const [showTimeline, setShowTimeline] = useState(!isZoomedSkills);
   const enumHovered = {
     NONE: '',
@@ -26,6 +25,14 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
     IDD: 'idd',
   };
   const [hovered, setHovered] = useState(enumHovered.NONE);
+
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const rocketRef = useRef<SVGImageElement>(null);
+
+  // choose a rocket size in viewBox units (percent of width/height)
+  // 5 == 5% of the viewBox width/height
+  const ROCKET_SIZE = window.innerWidth > 2500 ? 2 : window.innerWidth > 2000 ? 3 : 4;
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -58,20 +65,20 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
   
   // Waypoints in viewBox units (0‑100)
   const waypoints = isMobile ? [
-    {x: 50, y:0},
-    { x:parseFloat(positions[0].x.replace('vw', '')), y: parseFloat(positions[0].y.replace('vh', '')) },
-    { x: parseFloat(positions[1].x.replace('vw', '')), y: parseFloat(positions[1].y.replace('vh', '')) },
-    { x: parseFloat(positions[2].x.replace('vw', '')), y: parseFloat(positions[2].y.replace('vh', '')) },
-    { x: parseFloat(positions[3].x.replace('vw', '')), y: parseFloat(positions[3].y.replace('vh', '')) },
-    { x: parseFloat(positions[4].x.replace('vw', '')), y: parseFloat(positions[4].y.replace('vh', '')) },
+    {x: 0, y:-100},
+    { x:55, y: 0 },
+    { x: 65, y: 100 },
+    { x: 40, y: 150 },
+    { x: 60, y: 210 },
+    { x: 60, y: 210 },
   ] : [
     { x:-5, y: 20 },
-    { x: 5 + pxToVw(100), y: 5 + pxToVh(100) },
-    { x: 26 + pxToVw(100), y: 20 + pxToVh(40) },
-    { x: 43 + pxToVw(125), y: 11 + pxToVh(45) },
-    { x: 63 + pxToVw(100), y: 22 + pxToVh(50) },
-    { x: 87 + pxToVw(75),  y: 15 + pxToVh(35) },
-    { x:105,  y: 20 + pxToVh(100) }
+    { x: 5 + pxToVw(100), y: 5},
+    { x: 26 + pxToVw(100), y: 12},
+    { x: 43 + pxToVw(125), y: 7},
+    { x: 63 + pxToVw(100), y: 12},
+    { x: 87 + pxToVw(75),  y: 8},
+    { x:105,  y: 10}
   ];
 
   // Build an alternating wavy path (same as before)
@@ -93,33 +100,39 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
   const pathD = buildPath();
 
   // --- JS‑driven rocket animation -------------------------------------------
-  const pathRef = useRef<SVGPathElement>(null);
-  const rocketRef = useRef<HTMLImageElement>(null);
-
   useEffect(() => {
+    if (isMobile) return; // no rocket on mobile
     const pathEl = pathRef.current;
-    const rocketEl = rocketRef.current;
-    if (!pathEl || !rocketEl) return;
+    const imgEl  = rocketRef.current;
+    if (!pathEl || !imgEl) return;
 
     const total = pathEl.getTotalLength();
-    let t = 0; // 0‑1
-    let frame: number;
-    const delta = 0.3; // length units (viewBox) used for angle calculation
+    let t = 0;
+    let raf = 0;
+    const delta = 0.3;
 
     const step = () => {
-      t += 0.0004; // speed
+      t += 0.0004;
       if (t > 1) t -= 1;
-      const len = t * total;
-      const pos = pathEl.getPointAtLength(len);
-      const posAhead = pathEl.getPointAtLength((len + delta) % total);
-      const angle = Math.atan2(posAhead.y - pos.y, posAhead.x - pos.x) * 180 / Math.PI;
 
-      rocketEl.style.transform = `translate(${pos.x}vw, ${pos.y}vh) translate(-50%, -50%) rotate(${angle + 45}deg)`;
-      frame = requestAnimationFrame(step);
+      const len = t * total;
+      const p  = pathEl.getPointAtLength(len);
+      const q  = pathEl.getPointAtLength((len + delta) % total);
+      const angle = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+
+      // place rocket centered on the path point
+      imgEl.setAttribute("x", String(p.x - ROCKET_SIZE / 2));
+      imgEl.setAttribute("y", String(p.y - ROCKET_SIZE / 2));
+      imgEl.setAttribute("transform", `rotate(${angle + 45}, ${p.x}, ${p.y})`);
+
+      raf = requestAnimationFrame(step);
     };
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, []);
+
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [showTimeline]);
+
+
 
   return (
     <motion.div
@@ -134,32 +147,46 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
       }}
     >
       {/* SVG timeline */}
-      { 
-        showTimeline && (
-          <svg
-            viewBox={isMobile ? "0 0 100 145" : "0 0 100 100"}
-            preserveAspectRatio="none"
-            style={{ position: "absolute", inset: 0, width: "100vw", height: isMobile ? "145vh" : "100vh" }}
-          >
-            <path
-              ref={pathRef}
-              d={pathD}
-              stroke="#888"
-              strokeDasharray="0.3 1.2"
-              strokeWidth={0.15}
-              fill="none"
-            />
-          </svg>
-        )
-      }
+      {showTimeline && (
+        <svg
+          viewBox={isMobile ? "0 0 100 145" : "0 0 100 100"}
+          preserveAspectRatio={isMobile ? "" : "xMidYMid meet"}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100vw",
+            // Assure la même proportion que le viewBox → plus de letterboxing
+            aspectRatio: isMobile ? "" : "1 / 1",
+            height: isMobile ? "145vh" : "auto",
+            display: isMobile ? "" : "block",
+          }}
+        >
 
-      
-      <img
-        ref={rocketRef}
-        src="/multi-sites/assets/louis/fusee.png"
-        alt="rocket"
-        style={{ position: "absolute", width: 50, height: 50, transform: "rotate(45deg)", pointerEvents: "none", opacity: !showTimeline ? 0 : 1 }}
-      />
+          <path
+            ref={pathRef}
+            d={pathD}
+            stroke="#888"
+            strokeDasharray="0.3 1.2"
+            strokeWidth={0.15}
+            fill="none"
+          />
+          {/* Rocket INSIDE the SVG, square and non-stretched */}
+          {
+            !isMobile && (
+              <image
+              ref={rocketRef}
+              href="/multi-sites/assets/louis/fusee.png"
+              width={ROCKET_SIZE}
+              height={ROCKET_SIZE}
+              preserveAspectRatio="xMidYMid meet"
+              style={{ pointerEvents: "none" }}
+              opacity={showTimeline ? 1 : 0}
+            />
+          )}
+        </svg>
+      )}
+
+
 
       {/* Existing floating elements */}
       <motion.div style={{ position: "absolute", top: positions[0].y, left: positions[0].x, pointerEvents: "none", translate: isMobile ? "-50% -50%" : "0 0" }}>
