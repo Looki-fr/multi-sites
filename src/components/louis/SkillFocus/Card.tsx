@@ -178,7 +178,7 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
         .pip {
           font-family: serif;
           /* min = 1.3em (valeur actuelle) */
-          font-size: clamp(1.3em, 1.3vw, 2em);
+          font-size: clamp(1em, 1.3vw, 2em);
         }
 
         .pip.spades::before { content: '\\2660'; }
@@ -196,7 +196,7 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
           position: absolute;
           transform: translate(-50%, -50%);
           /* min = 2.3em (valeur actuelle) */
-          font-size: clamp(2.3em, 2.3vw, 3.5em);
+          font-size: clamp(1.3em, 2.3vw, 3.5em);
         }
 
         .pips .pip.flip {
