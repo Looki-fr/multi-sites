@@ -1,0 +1,239 @@
+{
+  "louis": {
+    "skillPage": {
+      "title_start": {
+        "fr": "Voici les technologies qui",
+        "en": "Here are the technologies that"
+      },
+      "title_verbs": [
+        {
+          "fr": "animent",
+          "en": "drive"
+        },
+        {
+          "fr": "propulsent",
+          "en": "power"
+        },
+        {
+          "fr": "déploient",
+          "en": "deploy"
+        },
+        {
+          "fr": "soutiennent",
+          "en": "support"
+        },
+        {
+          "fr": "accélèrent",
+          "en": "accelerate"
+        },
+        {
+          "fr": "alimentent",
+          "en": "fuel"
+        }
+      ],
+      "title_suffix":{
+        "fr": "mes projets",
+        "en": "my projects"
+      },
+      "description": {
+        "fr": "Survolez une compétence pour en savoir plus.",
+        "en": "Hover over a skill to learn more."
+      },
+      "explanation_start":{
+        "fr": "Compétences acquises à ",
+        "en": "Skills acquired at "
+      },
+      "explanation_suffix": {
+        "fr": ", et consolidées lors de projets personnels et professionnels.",
+        "en": ", and strengthened through personal and professional projects."
+      },
+      "skill_card": {
+        "utilisation_perso": {
+          "fr": "Utilisation perso :",
+          "en": "Personal use:"
+        },
+        "niveau_estime": {
+          "fr": "Niveau estimé :",
+          "en": "Estimated level:"
+        }
+      },
+      "skills": {
+        "React": {
+          "description": { "fr": "Librairie front-end permettant de créer des interfaces dynamiques.", "en": "Front-end library for building dynamic UIs." },
+          "usage": { "fr": "Utilisé dans ce portfolio, applications webs et application mobile (React Native).", "en": "Used in this portfolio, web apps, and a mobile app (React Native)." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      },
+      "Node.js": {
+        "description": { "fr": "Exécute du JavaScript côté serveur pour créer des APIs performantes.", "en": "Runs JavaScript on the server to build high-performance APIs." },
+        "usage": { "fr": "Utilisé pour des backends REST/GraphQL.", "en": "Used for REST/GraphQL backends." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Git": {
+        "description": { "fr": "Système de versionnage indispensable pour collaborer efficacement.", "en": "Version control system essential for effective collaboration." },
+        "usage": { "fr": "Utilisé sur tous les projets, avec GitHub et GitHub Copilot.", "en": "Used on all projects, with GitHub and GitHub Copilot." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      },
+      "Stable Diffusion": {
+        "description": { "fr": "Génération d’images via IA, utile pour créer des assets visuels.", "en": "AI image generation, useful for creating visual assets." },
+        "usage": { "fr": "Création d’illustrations personnalisées à l'effigie d'autrui.", "en": "Creating custom, personalized illustrations." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "HTML/CSS/JS": {
+        "description": { "fr": "Trio fondamental pour toute interface web moderne.", "en": "Foundational trio for any modern web interface." },
+        "usage": { "fr": "Utilisé sur tous mes projets front-end.", "en": "Used across all my front-end projects." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      },
+      "Docker": {
+        "description": { "fr": "Conteneurisation d’applications pour une portabilité maximale.", "en": "Application containerization for maximum portability." },
+        "usage": { "fr": "Utilisé pour orchestrer des stacks web complets (React + Node + MySQL) et dans le cadre de DevOps.", "en": "Used to orchestrate full web stacks (React + Node + MySQL) and in DevOps workflows." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "DevOps": {
+        "description": { "fr": "Intégration et déploiement continus pour une livraison rapide.", "en": "Continuous integration and deployment for rapid delivery." },
+        "usage": { "fr": "Automatisation des différentes phases de développement, déploiement avec Docker.", "en": "Automating development stages, deployment with Docker." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Figma": {
+        "description": { "fr": "Outil de design collaboratif pour créer des maquettes interactives.", "en": "Collaborative design tool for creating interactive mockups." },
+        "usage": { "fr": "Conception d’interfaces avant implémentation React.", "en": "Designing interfaces before React implementation." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      },
+      "UI/UX Design": {
+        "description": { "fr": "Conception centrée utilisateur pour une expérience optimale.", "en": "User-centered design for an optimal experience." },
+        "usage": { "fr": "Réflexion sur l’accessibilité et l’ergonomie dans chaque projet.", "en": "Focusing on accessibility and ergonomics in every project." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Python": {
+        "description": { "fr": "Langage polyvalent, performant en data science et IA.", "en": "Versatile language, strong in data science and AI." },
+        "usage": { "fr": "Utilisé pour scripts, projets de data science et création de jeux-vidéos.", "en": "Used for scripts, data-science projects, and game creation." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      },
+      "Scikit-learn": {
+        "description": { "fr": "Bibliothèque Python pour le machine learning et l'analyse de données.", "en": "Python library for machine learning and data analysis." },
+        "usage": { "fr": "Utilisé pour entraîner des modèles simples de classification.", "en": "Used to train simple classification models." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Scala": {
+        "description": { "fr": "Langage fonctionnel et orienté objet, idéal pour le big data.", "en": "Functional and object-oriented language, ideal for big data." },
+        "usage": { "fr": "Découverte des concepts de programmation fonctionnelle et utilisation dans un projet de Graph.", "en": "Exploring functional programming concepts and using them in a graph project." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Java": {
+        "description": { "fr": "Langage robuste pour le développement d'applications serveur.", "en": "Robust language for server-side application development." },
+        "usage": { "fr": "Utilisé dans des projets de backend et applications des différents concepts de POO.", "en": "Used in backend projects and applying OOP concepts." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "Linux": {
+        "description": { "fr": "Système d'exploitation open source, fondation de nombreux serveurs.", "en": "Open-source OS, the foundation of many servers." },
+        "usage": { "fr": "Utilisé pour le développement, la conteneurisation et l’hébergement local.", "en": "Used for development, containerization, and local hosting." },
+        "level": { "fr": "Intermédiaire", "en": "Intermediate" }
+      },
+      "MySQL": {
+        "description": { "fr": "Système de gestion de base de données relationnelle, robuste et fiable.", "en": "Robust, reliable relational database management system." },
+        "usage": { "fr": "Utilisé dans plusieurs projets Node.js et Python.", "en": "Used in several Node.js and Python projects." },
+        "level": { "fr": "Avancé", "en": "Advanced" }
+      }
+    }},
+    "hologramCarousel": {
+      "title": {
+        "fr": "MES PROJETS",
+        "en": "MY PROJECTS"
+      },
+      "projet_dod": {
+        "fr": "Site communautaire d'un jeu vidéo",
+        "en": "Community website for a video game"
+      },
+      "projet_jeu": {
+        "fr": "Jeu de plateforme à carte générée procéduralement (python)",
+        "en": "Platform game with procedurally generated map (Python)"
+      },
+      "projet_goto": {
+        "fr": "Application mobile de randonnée collaborative",
+        "en": "Collaborative hiking mobile app"
+      },
+      "projet_parici": {
+        "fr": "Site d'itinéraire de transport en commun dans Paris",
+        "en": "Public transport itinerary website for Paris"
+      },
+      "projet_scamazon": {
+        "fr": "Machine learning & web scapping : analyse d'avis Amazon et recommendation de produits",
+        "en": "Machine learning & web scraping: Amazon review analysis and product recommendation"
+      }
+    },
+    "timeline": {
+      "lycee": {
+        "title": {
+          "fr": "Lycée Modeste Leroy",
+          "en": "Modeste Leroy High School"
+        },
+        "short_description": {
+          "fr": "Découverte de l'informatique",
+          "en": "Discovery of computer science"
+        },
+        "description": {
+          "fr": "C’est au lycée que j’ai découvert l’informatique : un véritable déclic. J’ai immédiatement été passionné et me suis lancé dans de nombreux projets personnels.",
+          "en": "It was in high school that I discovered computer science—a real turning point. I immediately became passionate and launched into many personal projects."
+        }
+      },
+      "efrei": {
+        "title": {
+          "fr": "EFREI Paris",
+          "en": "EFREI Paris"
+        },
+        "short_description": {
+          "fr": "Approfondissement des connaissances",
+          "en": "Deepening of knowledge"
+        },
+        "description": {
+          "fr": "À l’EFREI, j’ai consolidé mes compétences en informatique tout en travaillant avec des développeurs passionnés. J’ai mené de nombreux projets d’équipe, de 2 à 7 personnes.",
+          "en": "At EFREI, I strengthened my computer science skills while working with passionate developers. I led many team projects, ranging from 2 to 7 people."
+        }
+      },
+      "etn": {
+        "title": {
+          "fr": "ETN",
+          "en": "ETN"
+        },
+        "short_description": {
+          "fr": "Expériences professionnelles",
+          "en": "Professional experiences"
+        },
+        "description": {
+          "fr": "Chez ETN, j’ai effectué un CDD d’un mois comme magasinier, puis un stage d’un mois en tant que technico-commercial. Deux expériences formatrices sur le terrain.",
+          "en": "At ETN, I worked on a one month fixed-term contract as a storekeeper, then completed a one month internship as a technical sales representative. Two formative hands-on experiences."
+        }
+      },
+      "idd": {
+        "title": {
+          "fr": "IDD-Xpert",
+          "en": "IDD-Xpert"
+        },
+        "short_description": {
+          "fr": "Stage de 5 mois & CDD de 2 mois",
+          "en": "5 month internship & 2 month fixed-term contract"
+        },
+        "description": {
+          "fr": "Chez IDD-Xpert, un laboratoire pharmaceutique, j’ai modernisé les formations internes en développant un outil sur mesure pour les gérer et les effectuer efficacement, ainsi que pris part dans divers missions. Participant à la transformation digitale de l’entreprise.",
+          "en": "At IDD-Xpert, a pharmaceutical laboratory, I modernized internal training by developing a custom tool to manage and carry them out efficiently, and also participated in various missions contributing to the company’s digital transformation."
+        }
+      },
+      "louis": {
+        "title" : {
+            "fr": "Louis — Développeur Full-Stack",
+            "en": "Louis — Full-Stack Developer"
+        },
+        "description": {
+            "fr": "Passionné par l'informatique, j'adore exprimer mon art à travers le code et repousser les limites techniques !",
+            "en": "Passionate about computer science, I love expressing my art through code and pushing technical boundaries!"
+        },
+        "short_description": {
+          "fr": "Développeur Polyvalent",
+          "en": "Versatile Developer"
+        },
+        "short_description_2": {
+          "fr": "Créatif Passionné",
+          "en": "Passionate Creative"
+      }
+    }
+  }
+}}

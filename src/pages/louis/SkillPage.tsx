@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Cards from "../../components/louis/SkillFocus/Cards";
 import { ArrowLeft } from "lucide-react";
 import SkillCard from "../../components/louis/SkillFocus/SkillCard";
-import RotatingText from "../../components/louis/SkillFocus/RotatingText";
+import texts from "../../texts/louis/texts.json";
 
 type SkillInfo = {
   description: string;
@@ -11,91 +11,24 @@ type SkillInfo = {
   level: "Débutant" | "Intermédiaire" | "Avancé";
 };
 
-const skillDescriptions: Record<string, SkillInfo> = {
-  "React": {
-    description: "Librairie front-end permettant de créer des interfaces dynamiques.",
-    usage: "Utilisé dans ce portfolio, applications webs et application mobile (React Native).",
-    level: "Avancé",
-  },
-  "Node.js": {
-    description: "Exécute du JavaScript côté serveur pour créer des APIs performantes.",
-    usage: "Utilisé pour des backends REST/GraphQL.",
-    level: "Intermédiaire",
-  },
-  "Git": {
-    description: "Système de versionnage indispensable pour collaborer efficacement.",
-    usage: "Utilisé sur tous les projets, avec GitHub et GitHub Copilot.",
-    level: "Avancé",
-  },
-  "Stable Diffusion": {
-    description: "Génération d’images via IA, utile pour créer des assets visuels.",
-    usage: "Création d’illustrations personnalisées à l'effigie d'autrui.",
-    level: "Intermédiaire",
-  },
-  "HTML/CSS/JS": {
-    description: "Trio fondamental pour toute interface web moderne.",
-    usage: "Utilisé sur tous mes projets front-end.",
-    level: "Avancé",
-  },
-  "Docker": {
-    description: "Conteneurisation d’applications pour une portabilité maximale.",
-    usage: "Utilisé pour orchestrer des stacks web complets (React + Node + MySQL) et dans le cadre de DevOps.",
-    level: "Intermédiaire",
-  },
-  "DevOps": {
-    description: "Intégration et déploiement continus pour une livraison rapide.",
-    usage: "Automatisation des différentes phases de développement, déploiement avec Docker.",
-    level: "Intermédiaire",
-  },
-  "Figma": {
-    description: "Outil de design collaboratif pour créer des maquettes interactives.",
-    usage: "Conception d’interfaces avant implémentation React.",
-    level: "Avancé",
-  },
-  "UI/UX Design": {
-    description: "Conception centrée utilisateur pour une expérience optimale.",
-    usage: "Réflexion sur l’accessibilité et l’ergonomie dans chaque projet.",
-    level: "Intermédiaire",
-  },
-  "Python": {
-    description: "Langage polyvalent, performant en data science et IA.",
-    usage: "Utilisé pour scripts, projets de data science et création de jeux-vidéos.",
-    level: "Avancé",
-  },
-  "Scikit-learn": {
-    description: "Bibliothèque Python pour le machine learning et l'analyse de données.",
-    usage: "Utilisé pour entraîner des modèles simples de classification.",
-    level: "Intermédiaire",
-  },
-  "Scala": {
-    description: "Langage fonctionnel et orienté objet, idéal pour le big data.",
-    usage: "Découverte des concepts de programmation fonctionnelle et utilisation dans un projet de Graph.",
-    level: "Intermédiaire",
-  },
-  "Java": {
-    description: "Langage robuste pour le développement d'applications serveur.",
-    usage: "Utilisé dans des projets de backend et applications des différents concepts de POO.",
-    level: "Intermédiaire",
-  },
-  "Linux": {
-    description: "Système d'exploitation open source, fondation de nombreux serveurs.",
-    usage: "Utilisé pour le développement, la conteneurisation et l’hébergement local.",
-    level: "Intermédiaire",
-  },
-  "MySQL": {
-    description: "Système de gestion de base de données relationnelle, robuste et fiable.",
-    usage: "Utilisé dans plusieurs projets Node.js et Python.",
-    level: "Avancé",
-  }
-};
+const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean, language: "fr" | "en" }> = ({ onBack, isMobile, language }) => {
+  const verbs = texts["louis"]["skillPage"]["title_verbs"].map(v => v[language]);
+  
+  const skillDescriptions: Record<string, SkillInfo> =
+    Object.fromEntries(
+      Object.entries(texts["louis"]["skillPage"]["skills"]).map(([key, value]) => [
+        key,
+        {
+          description: value["description"][language],
+          usage: value["usage"][language],
+          level: value["level"][language],
+        },
+      ])
+    );
 
-
-const verbs = ["animent", "propulsent", "déploient", "soutiennent", "accélèrent", "alimentent"];
-
-const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack, isMobile }) => {
   const [show, setShow] = useState(false);
   const [index, setIndex] = useState(0);
-  const [text, setText] = useState(`${verbs[0]} mes projets`);
+  const [text, setText] = useState(`${verbs[0]} ${texts["louis"]["skillPage"]["title_suffix"][language]}`);
   const [phase, setPhase] = useState<"idle" | "deleting" | "typing">("idle");
   const [hoveredSkill, setHoveredSkill] = useState<{
     name: string;
@@ -103,7 +36,6 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
     usage: string;
     level: string;
   } | null>(null);
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -116,7 +48,7 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
   useEffect(() => {
     if (!show || phase === "idle") return;
 
-    const full = `${verbs[index]} mes projets`;
+    const full = `${verbs[index]} ${texts["louis"]["skillPage"]["title_suffix"][language]}`;
     let timeout: NodeJS.Timeout;
 
     if (phase === "typing") {
@@ -214,7 +146,7 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
           maxWidth: isMobile ? "70vw" : "100vw",
         }}
       >
-        Voici les technologies qui{" "}
+        {texts["louis"]["skillPage"]["title_start"][language]}{" "}
         <span>
           <span style={{ color: "#00ffff" }}>{text.split(' ')[0]}</span>{" "+text.split(' ').slice(1).join(' ')}
         </span>
@@ -253,7 +185,7 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
           fontFamily: "Poppins, sans-serif",
         }}
       >
-        Survolez une compétence pour en savoir plus.
+        {texts["louis"]["skillPage"]["description"][language]}
       </motion.div>
 
         {hoveredSkill && skillDescriptions[hoveredSkill.name] && (
@@ -263,6 +195,7 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
             usage={skillDescriptions[hoveredSkill.name].usage}
             level={skillDescriptions[hoveredSkill.name].level}
             isMobile={isMobile}
+            language={language}
         />
         )}
 
@@ -302,7 +235,7 @@ const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean }> = ({ onBack
             rotate: '1deg',
           }}
         >
-          Compétences acquises à <strong>EFREI Paris</strong>, et consolidées lors de projets personnels et professionnels.
+          {texts["louis"]["skillPage"]["explanation_start"][language]}<strong>EFREI Paris</strong>{texts["louis"]["skillPage"]["explanation_suffix"][language]}
         </motion.div>
 
 

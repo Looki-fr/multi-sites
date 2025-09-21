@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion  } from "framer-motion";
 import { DescriptionModal } from "./DescriptionModal";
 import useFloatingMotion from "./useFloatingMotion"; // Hook réutilisable
+import texts from '../../../texts/louis/texts.json'
 
 const ORIGINAL_IMAGE = "/multi-sites/assets/louis_pro.jpg";
 const ALT_IMAGE = "/multi-sites/assets/louis_alt.png";
@@ -12,10 +13,11 @@ interface FaceFloatingProps {
   hovered: boolean;
   setHovered: () => void;
   setHoveredNone: () => void; // pour réinitialiser l'état de survol
+  language: "fr" | "en";
 }
 
 
-const FaceFloating: React.FC<FaceFloatingProps> = ({ isZoomedSkills, isMobile, hovered, setHovered, setHoveredNone }) => {
+const FaceFloating: React.FC<FaceFloatingProps> = ({ isZoomedSkills, isMobile, hovered, setHovered, setHoveredNone, language }) => {
   const ref = useRef<HTMLAnchorElement>(null);
 
   const [useAltImage, setUseAltImage] = useState(false);
@@ -180,7 +182,7 @@ const FaceFloating: React.FC<FaceFloatingProps> = ({ isZoomedSkills, isMobile, h
           >
             Louis<br />
             <span style={{ fontSize: "0.9rem", color: "#ccc" }}>
-              {useAltImage ? "Créatif Passionné" : "Développeur Polyvalent"}
+              {useAltImage ? texts["louis"]["timeline"]["louis"]["short_description_2"][language] : texts["louis"]["timeline"]["louis"]["short_description"][language]}
             </span>
 
             {glitchRects.slice(0, 10).map((_, i) => (
@@ -204,7 +206,7 @@ const FaceFloating: React.FC<FaceFloatingProps> = ({ isZoomedSkills, isMobile, h
             ))}
           </div>
         </motion.div>
-        {hovered && <DescriptionModal hovered={hovered} anchor={ref.current} title={"Louis — Développeur Full-Stack"} description={"Passionné par l'informatique, j'adore exprimer mon art à travers le code et repousser les limites techniques !"} isMobile={isMobile} />}
+        {hovered && <DescriptionModal hovered={hovered} anchor={ref.current} title={texts["louis"]["timeline"]["louis"]["title"][language]} description={texts["louis"]["timeline"]["louis"]["description"][language]} isMobile={isMobile} />}
       </>
   );
 };

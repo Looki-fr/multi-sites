@@ -33,10 +33,11 @@ const WIDTH_EFREI = 70;          // taille de l’icône centrale
 
 /* ─────────────────────────  COMPONENT  ───────────────────────── */
 
-export default function SkillsOrbit({ isZoomedSkills, setIsZoomedSkills, isMobile }: {
+export default function SkillsOrbit({ isZoomedSkills, setIsZoomedSkills, isMobile, language }: {
   isZoomedSkills: boolean;
   setIsZoomedSkills: (zoomed: boolean) => void;
   isMobile: boolean;
+  language: "fr" | "en";
 }) {
   const CENTER_X = 30;             // centre des orbites en vw
   const CENTER_Y = 25;             // centre des orbites en vh
@@ -159,7 +160,7 @@ export default function SkillsOrbit({ isZoomedSkills, setIsZoomedSkills, isMobil
               exit={{ opacity: 0 }}
               transition={{ duration: 2, ease: "easeInOut" }}
             >
-              <SkillPage onBack={handleClick} isMobile={isMobile} />
+              <SkillPage onBack={handleClick} isMobile={isMobile} language={language} />
             </motion.div>
           )}
         </AnimatePresence>

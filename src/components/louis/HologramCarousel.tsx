@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import useFloatingMotion from "./Floating/useFloatingMotion"; // Hook réutilisable
+import texts from '../../texts/louis/texts.json'
 
 // ─────────────────────────────────────────────────────────
 // Hook réutilisable : applique le mouvement flottant à l’élément passé
@@ -18,6 +19,7 @@ interface HologramCarouselProps {
   githubLinks?: string[];
   externalLinks?: string[];
   isMobile: boolean;                        // Pour ajuster le style si besoin
+  language: "fr" | "en";
 }
 
 
@@ -28,7 +30,8 @@ const HologramCarousel: React.FC<HologramCarouselProps> = ({
   isZoomedSkills,
   githubLinks = [],
   externalLinks = [],
-  isMobile
+  isMobile,
+  language,
 }) => {
   const anchorRef = useRef<HTMLDivElement>(null);
   useFloatingMotion(anchorRef);                     // mouvement flottant
@@ -106,7 +109,7 @@ const HologramCarousel: React.FC<HologramCarouselProps> = ({
             textTransform: "uppercase",
           }}
         >
-          MES PROJETS
+          {texts["louis"]["hologramCarousel"]["title"][language]}
         </h2>
 
         {/* Conteneur hologramme */}

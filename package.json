@@ -12,6 +12,7 @@
   },
   "homepage": "https://Looki-fr.github.io/multi-sites",
   "dependencies": {
+    "flag-icons": "^7.5.0",
     "framer-motion": "^12.23.3",
     "lucide-react": "^0.525.0",
     "matter-js": "^0.20.0",

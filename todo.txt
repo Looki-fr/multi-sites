@@ -1,5 +1,5 @@
 TODO : 
-- https://reactbits.dev/text-animations/rotating-text
-    - icons linkedin, github & gmail qq part
-    - build
-    - version anglaise
+
+- version anglaise
+- réduire police écriture des emojis card pour le mobile
+- import type Lang au lieu de langage = dans type 

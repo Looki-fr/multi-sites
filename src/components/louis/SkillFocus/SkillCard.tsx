@@ -1,6 +1,7 @@
 // components/louis/SkillFocus/SkillCard.tsx
 import { motion } from "framer-motion";
 import React from "react";
+import texts from "../../../texts/louis/texts.json";
 
 // Réutilise ton tableau d'icônes existant
 const skillIcons: Record<string, string> = {
@@ -26,9 +27,10 @@ type SkillCardProps = {
   usage: string;
   level: string;
   isMobile: boolean;
+  language: "fr" | "en";
 };
 
-const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, isMobile }) => {
+const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, isMobile, language }) => {
   const icon = skillIcons[name];
 
   return (
@@ -102,7 +104,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
           color: "#ccc",
         }}
       >
-        <strong style={{ fontWeight: 500, color: "#aaa" }}>Utilisation perso :</strong>{" "}
+        <strong style={{ fontWeight: 500, color: "#aaa" }}>{texts["louis"]["skillPage"]["skill_card"]["utilisation_perso"][language]}</strong>{" "}
         <span style={{ color: "#eee" }}>{usage}</span>
       </motion.p>
 
@@ -116,7 +118,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
           color: "#ccc",
         }}
       >
-        <strong style={{ fontWeight: 500, color: "#aaa" }}>Niveau estimé :</strong>{" "}
+        <strong style={{ fontWeight: 500, color: "#aaa" }}>{texts["louis"]["skillPage"]["skill_card"]["niveau_estime"][language]}</strong>{" "}
         <span style={{ color: "#eee" }}>{level}</span>
       </motion.p>
     </motion.div>

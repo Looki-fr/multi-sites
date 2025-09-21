@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import FaceFloating from "./Floating/FaceFloating";
 import ElementFloating from "./Floating/ElementFloating";
+import texts from '../../texts/louis/texts.json'
 
 interface TimelineProps {
   isZoomedSkills: boolean;
   isMobile: boolean;
+  language: "fr" | "en";
 }
 
 /**
@@ -13,7 +15,7 @@ interface TimelineProps {
  * (requestAnimationFrame) using the native SVG path‑length API. No more
  * <animateMotion>, so the behaviour is consistent across browsers.
  */
-const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
+const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile, language }) => {
   const pxToVw = (px: number) => (px / window.innerWidth) * 100;
   const [showTimeline, setShowTimeline] = useState(!isZoomedSkills);
   const enumHovered = {
@@ -32,7 +34,7 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
 
   // choose a rocket size in viewBox units (percent of width/height)
   // 5 == 5% of the viewBox width/height
-  const ROCKET_SIZE = window.innerWidth > 2500 ? 2 : window.innerWidth > 2000 ? 3 : 4;
+  const ROCKET_SIZE = isMobile ? 10 :  window.innerWidth > 2500 ? 2 : window.innerWidth > 2000 ? 3 : 4;
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -49,11 +51,11 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
 
 
   const positions = isMobile ? [
-    {x: '50vw', y: '25vh'},
-    {x:'45vw', y: '60vh'},
-    {x: '55vw', y: '87vh'},
-    {x: '42vw', y: '114vh'},
-    {x: '62vw', y: '141vh'},
+    {x: '50vw', y: '30vh'},
+    {x:'45vw', y: '65vh'},
+    {x: '55vw', y: '92vh'},
+    {x: '42vw', y: '119vh'},
+    {x: '62vw', y: '146vh'},
   ] :[
     {x: '5vw', y: '5vh'},
     {x: '26vw', y: '20vh'},
@@ -68,9 +70,9 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
     {x: 0, y:-100},
     { x:55, y: 0 },
     { x: 65, y: 100 },
-    { x: 40, y: 150 },
-    { x: 60, y: 210 },
-    { x: 60, y: 210 },
+    { x: 40, y: 170 },
+    { x: 70, y: 230 },
+    { x: 70, y: 230 },
   ] : [
     { x:-5, y: 20 },
     { x: 5 + pxToVw(100), y: 5},
@@ -101,7 +103,6 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
 
   // --- JS‑driven rocket animation -------------------------------------------
   useEffect(() => {
-    if (isMobile) return; // no rocket on mobile
     const pathEl = pathRef.current;
     const imgEl  = rocketRef.current;
     if (!pathEl || !imgEl) return;
@@ -172,8 +173,7 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           />
           {/* Rocket INSIDE the SVG, square and non-stretched */}
           {
-            !isMobile && (
-              <image
+            <image
               ref={rocketRef}
               href="/multi-sites/assets/louis/fusee.png"
               width={ROCKET_SIZE}
@@ -182,7 +182,7 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
               style={{ pointerEvents: "none" }}
               opacity={showTimeline ? 1 : 0}
             />
-          )}
+          }
         </svg>
       )}
 
@@ -191,9 +191,10 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
       {/* Existing floating elements */}
       <motion.div style={{ position: "absolute", top: positions[0].y, left: positions[0].x, pointerEvents: "none", translate: isMobile ? "-50% -50%" : "0 0" }}>
         <FaceFloating isZoomedSkills={isZoomedSkills} isMobile={isMobile} 
-        hovered={hovered === enumHovered.FACE} 
-        setHovered={() => setHovered(enumHovered.FACE)} 
-        setHoveredNone={() => setHovered(enumHovered.NONE)}
+          hovered={hovered === enumHovered.FACE} 
+          setHovered={() => setHovered(enumHovered.FACE)} 
+          setHoveredNone={() => setHovered(enumHovered.NONE)}
+          language={language}
         />
       </motion.div>
       <motion.div style={{ position: "absolute", top: positions[1].y, left: positions[1].x, translate: isMobile ? "-50% -50%" : "0 0"  }}>
@@ -201,10 +202,10 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           isZoomedSkills={isZoomedSkills}
           image="/multi-sites/assets/louis/lycee.png"
           width={180}
-          title="Lycée Modeste Leroy"
+          title={texts["louis"]["timeline"]["lycee"]["title"][language]}
           link="https://modeste-leroy.lycee.ac-normandie.fr/"
-          short_description="Découverte de l'informatique"
-          description="C’est au lycée que j’ai découvert l’informatique : un véritable déclic. J’ai immédiatement été passionné et me suis lancé dans de nombreux projets personnels."
+          short_description={texts["louis"]["timeline"]["lycee"]["short_description"][language]}
+          description={texts["louis"]["timeline"]["lycee"]["description"][language]}
           hovered={hovered === enumHovered.LYCEE} 
           setHovered={() => setHovered(enumHovered.LYCEE)} 
           setHoveredNone={() => setHovered(enumHovered.NONE)}
@@ -216,10 +217,10 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           isZoomedSkills={isZoomedSkills}
           image="/multi-sites/assets/louis/efrei.png"
           width={180}
-          title="EFREI Paris"
+          title={texts["louis"]["timeline"]["efrei"]["title"][language]}
           link="https://www.efrei.fr/"
-          short_description="Approfondissement des connaissances"
-          description="À l’EFREI, j’ai consolidé mes compétences en informatique tout en travaillant avec des développeurs passionnés. J’ai mené de nombreux projets d’équipe, de 2 à 7 personnes."
+          short_description={texts["louis"]["timeline"]["efrei"]["short_description"][language]}
+          description={texts["louis"]["timeline"]["efrei"]["description"][language]}
           offsetXDescription={35} // Adjusted offset for better positioning
           hovered={hovered === enumHovered.EFREI} 
           setHovered={() => setHovered(enumHovered.EFREI)} 
@@ -232,10 +233,10 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           isZoomedSkills={isZoomedSkills}
           image="/multi-sites/assets/louis/etn.png"
           width={180}
-          title="ETN"
+          title={texts["louis"]["timeline"]["etn"]["title"][language]}
           link="https://etn.fr/nos-domaines-dactivites/electrotechnique/"
-          short_description="Expériences professionnelles"
-          description="Chez ETN, j’ai effectué un CDD d’un mois comme magasinier, puis un stage d’un mois en tant que technico-commercial. Deux expériences formatrices sur le terrain."
+          short_description={texts["louis"]["timeline"]["etn"]["short_description"][language]}
+          description={texts["louis"]["timeline"]["etn"]["description"][language]}
           hovered={hovered === enumHovered.ETN} 
           setHovered={() => setHovered(enumHovered.ETN)} 
           setHoveredNone={() => setHovered(enumHovered.NONE)}
@@ -249,9 +250,9 @@ const Timeline: React.FC<TimelineProps> = ({ isZoomedSkills, isMobile }) => {
           image="/multi-sites/assets/louis/idd.png"
           width={140}
           link="http://www.idd-xpert.com/"
-          title="IDD-Xpert"
-          short_description="Stage de 5 mois & CDD de 2 mois"
-          description="Chez IDD-Xpert, un laboratoire pharmaceutique, j’ai modernisé les formations internes en développant un outil sur mesure pour les gérer et les effectuer efficacement, ainsi que pris part dans divers missions. Participant à la transformation digitale de l’entreprise."
+          title={texts["louis"]["timeline"]["idd"]["title"][language]}
+          short_description={texts["louis"]["timeline"]["idd"]["short_description"][language]}
+          description={texts["louis"]["timeline"]["idd"]["description"][language]}
           offsetXDescription={-45} // Adjusted offset for better positioning
           isLeftDescription={true}
           hovered={hovered === enumHovered.IDD} 
