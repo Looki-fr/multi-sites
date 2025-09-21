@@ -6,6 +6,7 @@ type CardProps = {
   x: number;
   y: number;
   skill?: { name: string; src: string };
+  isMobile: boolean;
 };
 
 type Pip = {
@@ -14,7 +15,7 @@ type Pip = {
   flip?: boolean;
 };
 
-const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
+const Card: React.FC<CardProps> = ({ suit, value, x, y, skill, isMobile }) => {
   const display = value === '10' ? '10' : value.charAt(0);
   const isRed = suit === 'Hearts' || suit === 'Diamonds';
   const isFace = ['Jack', 'Queen', 'King'].includes(value);
@@ -178,7 +179,9 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
         .pip {
           font-family: serif;
           /* min = 1.3em (valeur actuelle) */
-          font-size: clamp(1em, 1.3vw, 2em);
+          font-size: clamp(0.7em, 1.3vw, 2em);
+          ${isMobile ? "margin-top: 0.5rem;" : ""}
+          ${isMobile ? "margin-bottom: 0.5rem;" : ""}
         }
 
         .pip.spades::before { content: '\\2660'; }
@@ -195,8 +198,7 @@ const Card: React.FC<CardProps> = ({ suit, value, x, y, skill }) => {
         .pips .pip {
           position: absolute;
           transform: translate(-50%, -50%);
-          /* min = 2.3em (valeur actuelle) */
-          font-size: clamp(1.3em, 2.3vw, 3.5em);
+          font-size: clamp(1em, 2.3vw, 3.5em);
         }
 
         .pips .pip.flip {

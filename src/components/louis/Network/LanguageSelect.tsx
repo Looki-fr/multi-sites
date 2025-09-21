@@ -10,8 +10,6 @@ interface LanguageSelectProps {
   onChange: (lang: Lang) => void;
 }
 
-const cc = (l: Lang) => (l === "fr" ? "fr" : "gb"); // codes ISO pour la lib
-
 const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,6 +36,7 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
     border: "1px solid rgba(0,0,0,0.06)",
     cursor: "pointer",
     userSelect: "none",
+    color: "#111",
   };
 
   const menu: React.CSSProperties = {
@@ -52,7 +51,9 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: 6,
-    fontFamily: "Poppins, system-ui, sans-serif", 
+    fontFamily: "Poppins, system-ui, sans-serif",
+    color: "#111", // force le texte en noir en prod
+    zIndex: 1000,
   };
 
   const item: React.CSSProperties = {
@@ -63,13 +64,16 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
     padding: "8px 10px",
     cursor: "pointer",
     borderRadius: 10,
-    fontFamily: "Poppins, system-ui, sans-serif", 
+    fontFamily: "Poppins, system-ui, sans-serif",
+    color: "#111",
   };
 
   const flagStyle: React.CSSProperties = {
     width: 22,
     height: 22,
     borderRadius: 4,
+    display: "block",
+    objectFit: "cover",
   };
 
   return (
@@ -83,7 +87,14 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
         aria-expanded={open}
         title={value === "fr" ? "Français" : "English"}
       >
-        <span className={`fi fi-${cc(value)}`} style={flagStyle} />
+        <img
+          src={`/multi-sites/assets/louis/${value === "fr" ? "france" : "anglais"}.png`}
+          alt={value === "fr" ? "Drapeau français" : "Drapeau britannique"}
+          width={22}
+          height={22}
+          style={flagStyle}
+          draggable={false}
+        />
         <span style={{ fontSize: 14, fontWeight: 600 }}>{value.toUpperCase()}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" style={{ opacity: 0.6 }}>
           <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -116,7 +127,14 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ value, onChange }) => {
                 }}
                 title={opt === "fr" ? "Français" : "English"}
               >
-                <span className={`fi fi-${cc(opt)}`} style={{ ...flagStyle, width: 26, height: 26 }} />
+                <img
+                  src={`/multi-sites/assets/louis/${opt === "fr" ? "france" : "anglais"}.png`}
+                  alt={opt === "fr" ? "Drapeau français" : "Drapeau britannique"}
+                  width={26}
+                  height={26}
+                  style={{ ...flagStyle, width: 26, height: 26 }}
+                  draggable={false}
+                />
                 <span style={{ fontSize: 14, fontWeight: 600 }}>{opt.toUpperCase()}</span>
               </div>
             ))}

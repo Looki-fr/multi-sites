@@ -97,7 +97,7 @@ export default function Cards({ onHoverSkillChange, isMobile }: { onHoverSkillCh
             zIndex: 100,
           }}
         >
-          <Card suit={card.suit} value={card.value} x={0} y={0} skill={someSkillList[i]} />
+          <Card suit={card.suit} value={card.value} x={0} y={0} skill={someSkillList[i]} isMobile={isMobile} />
         </motion.div>
         
         <button

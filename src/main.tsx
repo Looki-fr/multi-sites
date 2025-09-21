@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App'
 import Louis from './pages/Louis'
 import Page404 from './pages/Page404'
-import "flag-icons/css/flag-icons.min.css";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

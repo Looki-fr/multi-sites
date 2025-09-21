@@ -45,7 +45,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
         flexDirection: "column",
         alignItems: "flex-start",
         paddingLeft: "8vw",
-        width: "60vw",
+        width: isMobile ? "80vw" : "60vw",
         fontFamily: "Poppins, sans-serif",
         color: "white",
         lineHeight: 1.6,
@@ -88,6 +88,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
           fontSize: "clamp(0.9rem, 1vw + 0.5rem, 1.1rem)",
           marginBottom: "0.8rem",
           opacity: 0.95,
+          textAlign: "left",
         }}
       >
         {description}
@@ -102,6 +103,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
           fontSize: "clamp(0.85rem, 0.8vw + 0.4rem, 1rem)",
           marginBottom: "0.4rem",
           color: "#ccc",
+          textAlign: "left",
         }}
       >
         <strong style={{ fontWeight: 500, color: "#aaa" }}>{texts["louis"]["skillPage"]["skill_card"]["utilisation_perso"][language]}</strong>{" "}
@@ -114,8 +116,9 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, description, usage, level, 
         animate={{ x: 0 }}
         transition={{ duration: 0.3, delay: 0.5 }}
         style={{
-          fontSize: "0.95rem",
+          fontSize: "clamp(0.85rem, 0.8vw + 0.4rem, 1rem)",
           color: "#ccc",
+          textAlign: "left",
         }}
       >
         <strong style={{ fontWeight: 500, color: "#aaa" }}>{texts["louis"]["skillPage"]["skill_card"]["niveau_estime"][language]}</strong>{" "}
