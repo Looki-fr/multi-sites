@@ -4,6 +4,7 @@ import Cards from "../../components/louis/SkillFocus/Cards";
 import { ArrowLeft } from "lucide-react";
 import SkillCard from "../../components/louis/SkillFocus/SkillCard";
 import texts from "../../texts/louis/texts.json";
+import { type Lang } from "../../components/louis/Network/LanguageSelect";
 
 type SkillInfo = {
   description: string;
@@ -11,7 +12,7 @@ type SkillInfo = {
   level: "Débutant" | "Intermédiaire" | "Avancé";
 };
 
-const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean, language: "fr" | "en" }> = ({ onBack, isMobile, language }) => {
+const SkillPage: React.FC<{ onBack: () => void, isMobile: boolean, language: Lang }> = ({ onBack, isMobile, language }) => {
   const verbs = texts["louis"]["skillPage"]["title_verbs"].map(v => v[language]);
   
   const skillDescriptions: Record<string, SkillInfo> =

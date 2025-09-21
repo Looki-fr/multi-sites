@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState  } from "react";
 import { motion, useAnimation } from "framer-motion";
 import SkillPage from "./../../pages/louis/SkillPage";
 import { AnimatePresence } from "framer-motion";
+import { type Lang } from "../louis/Network/LanguageSelect";
 
 type Skill = {
   src: string;
@@ -37,7 +38,7 @@ export default function SkillsOrbit({ isZoomedSkills, setIsZoomedSkills, isMobil
   isZoomedSkills: boolean;
   setIsZoomedSkills: (zoomed: boolean) => void;
   isMobile: boolean;
-  language: "fr" | "en";
+  language: Lang;
 }) {
   const CENTER_X = 30;             // centre des orbites en vw
   const CENTER_Y = 25;             // centre des orbites en vh

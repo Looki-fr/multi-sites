@@ -7,12 +7,13 @@ import ClickSpark from '../components/louis/ClickSpark';
 import Bug from '../components/louis/Bug'
 import SocialBar from '../components/louis/Network/SocialBar'
 import texts from '../texts/louis/texts.json'
+import { type Lang } from '../components/louis/Network/LanguageSelect'
 
 export default function Louis() {
   const [isZoomedSkills, setIsZoomedSkills] = useState(false);
   const isMobile = window.innerWidth <= 768;
   // Parent.jsx/tsx
-  const [language, setLanguage] = useState<"fr" | "en">("fr");
+  const [language, setLanguage] = useState<Lang>("fr");
   return (
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: isMobile ? '280vh' : '100vh', overflow: isMobile ? 'auto' : 'hidden', overflowX: 'hidden', maxWidth: '100vw', touchAction: isMobile ? 'manipulation' : '' }}>
         <SpaceBackground />

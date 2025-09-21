@@ -1,5 +1,3 @@
 TODO : 
 
-- version anglaise
-- réduire police écriture des emojis card pour le mobile
 - import type Lang au lieu de langage = dans type 

@@ -3,6 +3,7 @@ import { motion  } from "framer-motion";
 import { DescriptionModal } from "./DescriptionModal";
 import useFloatingMotion from "./useFloatingMotion"; // Hook réutilisable
 import texts from '../../../texts/louis/texts.json'
+import { type Lang } from "../Network/LanguageSelect";
 
 const ORIGINAL_IMAGE = "/multi-sites/assets/louis_pro.jpg";
 const ALT_IMAGE = "/multi-sites/assets/louis_alt.png";
@@ -13,7 +14,7 @@ interface FaceFloatingProps {
   hovered: boolean;
   setHovered: () => void;
   setHoveredNone: () => void; // pour réinitialiser l'état de survol
-  language: "fr" | "en";
+  language: Lang;
 }
 
 

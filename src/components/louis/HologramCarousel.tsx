@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import useFloatingMotion from "./Floating/useFloatingMotion"; // Hook réutilisable
 import texts from '../../texts/louis/texts.json'
+import {type Lang} from "../louis/Network/LanguageSelect";
 
 // ─────────────────────────────────────────────────────────
 // Hook réutilisable : applique le mouvement flottant à l’élément passé
@@ -19,7 +20,7 @@ interface HologramCarouselProps {
   githubLinks?: string[];
   externalLinks?: string[];
   isMobile: boolean;                        // Pour ajuster le style si besoin
-  language: "fr" | "en";
+  language: Lang;                           // Langue actuelle (fr/en)
 }
 
 

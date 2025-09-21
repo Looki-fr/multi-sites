@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import FaceFloating from "./Floating/FaceFloating";
 import ElementFloating from "./Floating/ElementFloating";
 import texts from '../../texts/louis/texts.json'
+import { type Lang } from "../louis/Network/LanguageSelect";
 
 interface TimelineProps {
   isZoomedSkills: boolean;
   isMobile: boolean;
-  language: "fr" | "en";
+  language: Lang;
 }
 
 /**
